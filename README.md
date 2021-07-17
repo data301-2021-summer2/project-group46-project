@@ -8,6 +8,7 @@ Details for Milestone are available on Canvas (left sidebar, Course Project) or 
 
 ## Describe your topic/interest in about 150-200 words
 
+We hope to gain further insight into the world of Kickstarter. As two avid boargame fans, we frequently interact with the products of this site. By studying it we hope to understand what leads to a succesful Kickstarter product, i.e. what factors lead into campaigns being succesful and the best projects to back. Rylan is particularly interested in which categories of products (Music, games, boardgames, art, etc) have the best dollar to success ratio. Jacob is interested in how the funding time zone for a project effects its success, for example do shorter projects result in more succesful products or do longer ones? There is so much more than this that we can look into, connections between funding goals and project duration, or funding goals and project category. A dashboard could be interesting with visual guides for different categories and pricings and how much success they bring.
 
 ## Describe your dataset in about 150-200 words
 
@@ -15,7 +16,7 @@ The dataset contains data on roughly 376,000 crowdfunded projects from the Kicks
 
 ## Team Members
 
-- Person 1: one sentence about you!
+- Rylan: I love games of all kind, from sports to video games to boardgames. I am really into basketball and warhammer 40k. I am a COSC Major entering my third year and am super excited to learn Python in this course!
 - Person 2: one sentence about you!
 - Person 3: one sentence about you!
 
