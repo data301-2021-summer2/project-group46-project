@@ -1,4 +1,4 @@
-# Group YYY - {Short snappy Title of your project}
+# Group 46 - Analysis of Kickstarter Data
 
 - Your title can change over time.
 
