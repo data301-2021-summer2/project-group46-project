@@ -17,8 +17,7 @@ The dataset contains data on roughly 376,000 crowdfunded projects from the Kicks
 ## Team Members
 
 - Rylan: I love games of all kind, from sports to video games to boardgames. I am really into basketball and warhammer 40k. I am a COSC Major entering my third year and am super excited to learn Python in this course!
-- Person 2: one sentence about you!
-- Person 3: one sentence about you!
+- Jacob: I like to program and play boardgames in my spare time. I am a COSC major in my third year and excited to see what I learn from this project.
 
 ## References
 
