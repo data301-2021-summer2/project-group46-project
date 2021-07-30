@@ -17,12 +17,43 @@ def changeStateToInt(state):
         else:
             return -1
 
+
+def getProjectsWithDurationInTimeRange(df, fromTime, toTime):
+        fromTimeTD = pd.Timedelta(str(fromTime) + ' days')
+        toTimeTD = pd.Timedelta(str(toTime) + ' days')
+        df2 = df[(df['duration'] > fromTimeTD) & (df['duration'] < toTimeTD)]
+        return df2
+
+def getProjectsAsFailedOrSuccessful(df):
+        # only keep projects that have a state of either 'failed', 'successful', or 'canceled'
+        df2 = df[(df['stateInt'] == 0) | (df['stateInt'] == 1) | (df['stateInt'] == 2)]
+        # change any 'canceled' projects to be considered as 'failed' projects
+        # 0 -> means failed
+        # 1 -> means successful
+        # 2 -> means canceled
+        df2 = df2.assign(stateInt=lambda x: np.where(x['stateInt'] != 2, x['stateInt'], 0))
+        return df2
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
 def load_and_process(url_or_path_to_csv_file):
         
         #np.where(x.state == 'successful', 1, 0)
         
         # Main Method Chain For Data Analysis Pipeline
-        dataFrame = (pd.read_csv(url_or_path_to_csv_file, nrows=1000)
+        # , nrows=40000
+        dataFrame = (pd.read_csv(url_or_path_to_csv_file)
                     .rename(columns={"name": "Name"})
                     .assign(stateInt=lambda x: x['state'].apply(changeStateToInt))
                     .assign(duration=lambda x: (pd.to_datetime(x['deadline']) - pd.to_datetime(x['launched'])))
