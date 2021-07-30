@@ -17,6 +17,12 @@ def changeStateToInt(state):
         else:
             return -1
 
+def checkSuccess(state):
+    if state == "successful":
+        return 1
+    else:
+        return -1
+
 def load_and_process(url_or_path_to_csv_file, who):
         
         if who == "Jacob":
@@ -66,4 +72,9 @@ def load_and_process(url_or_path_to_csv_file, who):
                   .dropna()
                  )
             df = df[df["pledged"]>0]
+            
+            df = df[(df['state'] == 'successful') | (df['state'] == 'canceled') | (df['state'] == 'suspended')]
+            
+            #df = df.assign(plus_minus= lamba x: x[''])
+            df['plus_minus'] = (df.state.apply(checkSuccess) * df.pledged)
             return df
