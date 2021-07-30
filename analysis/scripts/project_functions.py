@@ -92,8 +92,11 @@ def load_and_process(url_or_path_to_csv_file, who):
                   .rename(columns = {"usd_pledged_real": "pledged","usd_goal_real": "goal", "main_category":"category"})
                   .dropna()
                  )
-            #Removed any rows with a pledge value of zero.
-            df = df[df["pledged"]>0]
+            #Removed any rows with a pledge value lower than 1.
+            df = df[df["pledged"]>=1]
+            
+            #Remove anything with a goal greater than 100000 to remove outliers, this was done the remove a few crazy outliers in the technology and journalism categories
+            df = df[df["goal"]<=100000]
             
             #We then remove all rows that are an unusable state type like undefined or live
             df = df[(df['state'] == 'successful') | (df['state'] == 'canceled') | (df['state'] == 'suspended')]
