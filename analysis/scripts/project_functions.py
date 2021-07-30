@@ -17,6 +17,24 @@ def changeStateToInt(state):
         else:
             return -1
 
+def getProjectsWithDurationInTimeRange(df, fromTime, toTime):
+        fromTimeTD = pd.Timedelta(str(fromTime) + ' days')
+        toTimeTD = pd.Timedelta(str(toTime) + ' days')
+        df2 = df[(df['duration'] > fromTimeTD) & (df['duration'] < toTimeTD)]
+        return df2
+
+def getProjectsAsFailedOrSuccessful(df):
+        # only keep projects that have a state of either 'failed', 'successful', or 'canceled'
+        df2 = df[(df['stateInt'] == 0) | (df['stateInt'] == 1) | (df['stateInt'] == 2)]
+        # change any 'canceled' projects to be considered as 'failed' projects
+        # 0 -> means failed
+        # 1 -> means successful
+        # 2 -> means canceled
+        df2 = df2.assign(stateInt=lambda x: np.where(x['stateInt'] != 2, x['stateInt'], 0))
+        return df2
+    
+    
+
 def checkSuccess(state):
     #This just checks to see if the project is successful.
     if state == "successful":
