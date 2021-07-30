@@ -32,7 +32,80 @@ def getProjectsAsFailedOrSuccessful(df):
         # 2 -> means canceled
         df2 = df2.assign(stateInt=lambda x: np.where(x['stateInt'] != 2, x['stateInt'], 0))
         return df2
+
+def prepareDfForProbSuccessVSDuration(df):
+        #only keep projects with state of: failed, successful, or canceled
+        df2 = df
+        df2 = df2[(df2['stateInt'] == 0) | (df2['stateInt'] == 1) | (df2['stateInt'] == 2)]
+
+        # change any 'canceled' projects to be considered as 'failed' projects
+        df2 = df2.assign(stateInt=lambda x: np.where(x['stateInt'] != 2, x['stateInt'], 0))
+
+        # create a list of timedelta objects to represent the different time period groupings (0-1 week, 1-2 weeks, ....)
+        timeSections = pd.timedelta_range(start='0 days', end='100 days', freq='7D')
+
+        # create a (categorical) Series of time interval objects from the timeSections
+        # timeIntervals has type pandas.core.series.Series
+        # more on categorical series: https://pandas.pydata.org/pandas-docs/stable/user_guide/categorical.html
+        # timeIntervals individual elements (time intervals) are of type: pandas._libs.interval.Interval
+        # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Interval.html
+        timeIntervals = pd.cut(df2.duration, timeSections)
+
+        df3 = df2
+        # groupby the timeintervals and calculate the mean
+        df2 = (df2.groupby(timeIntervals).mean())
+
+        # only keep the stateInt column
+        df2 = df2[['stateInt']]
+
+        #print('before')
+        #print(df2.head(20))
+
+        formattedTimeIntervals = []
+
+        for interval in df2.index:
+            formattedTimeIntervals.append(str(interval).replace('(', '').replace(']', '').replace('00:00:00', '').replace(',', 'to'))
+
+        #print(formattedTimeIntervals[0])
+
+        df2['formattedTimeIntervals'] = formattedTimeIntervals
+
+        return df2
     
+def prepareDfForProbSuccessVSDurationByCategories(df):
+        #only keep projects with state of: failed, successful, or canceled
+        df2 = df
+        df2 = df2[(df2['stateInt'] == 0) | (df2['stateInt'] == 1) | (df2['stateInt'] == 2)]
+
+        # change any 'canceled' projects to be considered as 'failed' projects
+        df2 = df2.assign(stateInt=lambda x: np.where(x['stateInt'] != 2, x['stateInt'], 0))
+
+        # create a list of timedelta objects to represent the different time period groupings (0-1 week, 1-2 weeks, ....)
+        timeSections = pd.timedelta_range(start='0 days', end='100 days', freq='7D')
+
+        # create a (categorical) Series of time interval objects from the timeSections
+        # timeIntervals has type pandas.core.series.Series
+        # more on categorical series: https://pandas.pydata.org/pandas-docs/stable/user_guide/categorical.html
+        # timeIntervals individual elements (time intervals) are of type: pandas._libs.interval.Interval
+        # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Interval.html
+        timeIntervals = pd.cut(df2.duration, timeSections)
+
+        df3 = df2
+        
+        #print(df3.head(5))
+        df4 = df3.groupby([timeIntervals,'main_category']).mean()
+        df4 = df4[['stateInt']]
+        #print(df4.index.get_level_values(0))
+        df4['duration2'] = df4.index.get_level_values(0)
+        df4['category2'] = df4.index.get_level_values(1)
+        #print(df4.head(60))
+
+        df4 = df4[(df4['category2'] == 'Fashion') | (df4['category2'] == 'Music') | (df4['category2'] == 'Food') | (df4['category2'] == 'Journalism')]
+
+        print(df4.columns)
+
+        return df4
+
     
 
 def checkSuccess(state):
@@ -48,7 +121,7 @@ def load_and_process(url_or_path_to_csv_file, who):
             #np.where(x.state == 'successful', 1, 0)
 
             # Main Method Chain For Data Analysis Pipeline
-            dataFrame = (pd.read_csv(url_or_path_to_csv_file, nrows=1000)
+            dataFrame = (pd.read_csv(url_or_path_to_csv_file)
                         .rename(columns={"name": "Name"})
                         .assign(stateInt=lambda x: x['state'].apply(changeStateToInt))
                         .assign(duration=lambda x: (pd.to_datetime(x['deadline']) - pd.to_datetime(x['launched'])))
