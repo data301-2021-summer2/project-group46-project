@@ -18,6 +18,7 @@ def changeStateToInt(state):
             return -1
 
 def checkSuccess(state):
+    #This just checks to see if the project is successful.
     if state == "successful":
         return 1
     else:
@@ -65,16 +66,21 @@ def load_and_process(url_or_path_to_csv_file, who):
             # dropna: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.dropna.html?highlight=dropna#pandas.DataFrame.dropna
             # apply: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.apply.html?highlight=apply#pandas.Series.apply
             # assign: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.assign.html?highlight=assign#pandas.DataFrame.assign
+        
         elif who == "Rylan":
+            #Removed each of the non-essential data types, then renamed the ones we had as well as removing any null data.
             df = (pd.read_csv(url_or_path_to_csv_file)
                   .drop(['category','ID','currency','deadline','goal','launched','pledged','backers','country',"usd pledged"],axis=1)
                   .rename(columns = {"usd_pledged_real": "pledged","usd_goal_real": "goal", "main_category":"category"})
                   .dropna()
                  )
+            #Removed any rows with a pledge value of zero.
             df = df[df["pledged"]>0]
             
+            #We then remove all rows that are an unusable state type like undefined or live
             df = df[(df['state'] == 'successful') | (df['state'] == 'canceled') | (df['state'] == 'suspended')]
             
-            #df = df.assign(plus_minus= lamba x: x[''])
+            #Next we make a new category called plus_minus that measures the monitary success of a failed or succesful campaign
             df['plus_minus'] = (df.state.apply(checkSuccess) * df.pledged)
+            
             return df
