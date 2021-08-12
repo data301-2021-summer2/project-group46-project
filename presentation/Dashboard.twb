@@ -591,6 +591,14 @@
               <bucket>&quot;Comic Books&quot;</bucket>
             </map>
           </encoding>
+          <encoding attr='color' field='[none:stateInt:ok]' type='palette'>
+            <map to='#59a14f'>
+              <bucket>1</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>0</bucket>
+            </map>
+          </encoding>
           <encoding attr='color' field='[none:main_category:nk]' type='palette'>
             <map to='#4e79a7'>
               <bucket>&quot;Art&quot;</bucket>
@@ -636,14 +644,6 @@
             </map>
             <map to='#ffbe7d'>
               <bucket>&quot;Crafts&quot;</bucket>
-            </map>
-          </encoding>
-          <encoding attr='color' field='[none:stateInt:ok]' type='palette'>
-            <map to='#59a14f'>
-              <bucket>1</bucket>
-            </map>
-            <map to='#f28e2b'>
-              <bucket>0</bucket>
             </map>
           </encoding>
         </style-rule>
@@ -713,7 +713,7 @@
             <max>13285226.359999999</max>
           </filter>
           <shelf-sorts>
-            <shelf-sort-v2 dimension-to-sort='[federated.1cgmbi91fd4sf214xisfw03sq6z0].[none:category:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.1cgmbi91fd4sf214xisfw03sq6z0].[sum:plus_minus:qk]' shelf='columns' />
+            <shelf-sort-v2 dimension-to-sort='[federated.1cgmbi91fd4sf214xisfw03sq6z0].[none:category:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.1cgmbi91fd4sf214xisfw03sq6z0].[avg:plus_minus:qk]' shelf='columns' />
           </shelf-sorts>
           <slices>
             <column>[federated.1cgmbi91fd4sf214xisfw03sq6z0].[avg:plus_minus:qk]</column>
@@ -1134,8 +1134,8 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='1450' minheight='1450' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='39' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98222' id='38' param='vert' type-v2='layout-flow' w='99058' x='471' y='889'>
+            <zone h='100000' id='41' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98222' id='40' param='vert' type-v2='layout-flow' w='99058' x='471' y='889'>
                 <zone h='28889' id='21' mode='checkdropdown' name='Sheet 3' param='[federated.04m223o0ac1v6m1h0vs1w0mknqg9].[yr:launched:ok]' type-v2='filter' values='database' w='11706' x='87823' y='8556'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -1412,7 +1412,7 @@
           </highlight>
         </viewpoint>
       </viewpoints>
-      <active id='31' />
+      <active id='-1' />
       <simple-id uuid='{328A12B9-2EDC-41E0-9BFE-81CABB171564}' />
     </window>
   </windows>
